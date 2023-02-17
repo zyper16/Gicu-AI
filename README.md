@@ -1,4 +1,4 @@
-# gicu.AI your chat bot AI assistant
+# gicu.AI your AI chat bot AI
 
 This is a clone to the famous ChatGPT from OpenAI.
 
