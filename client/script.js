@@ -29,7 +29,11 @@ const typeText = function (element, text) {
   const interval = setInterval(() => {
     if (index < text.length) {
       element.textContent += text.charAt(index);
-      element.scrollIntoView(false);
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+        inline: "nearest",
+      });
     } else clearInterval(interval);
     index++;
   }, 30);
