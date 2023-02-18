@@ -2,6 +2,7 @@ import bot from "./assets/bot.svg";
 import user from "./assets/user.svg";
 
 const form = document.querySelector("form");
+const textarea = document.querySelector("textarea");
 const chatContainer = document.querySelector("#chat_container");
 
 let loadInterval;
@@ -14,6 +15,11 @@ const loader = function (element) {
   }, 300);
 };
 
+const textareaResize = function () {
+  this.style.height = "auto";
+  this.style.height = this.scrollHeight * 1.01 + "px";
+};
+
 let interval;
 
 const typeText = function (element, text) {
@@ -21,8 +27,10 @@ const typeText = function (element, text) {
   let index = 0;
 
   const interval = setInterval(() => {
-    if (index < text.length) element.textContent += text.charAt(index);
-    else clearInterval(interval);
+    if (index < text.length) {
+      element.textContent += text.charAt(index);
+      element.scrollIntoView(false, { behaviour: "smooth" });
+    } else clearInterval(interval);
     index++;
   }, 30);
 };
@@ -49,6 +57,7 @@ const chatStripe = function (isAi, value, uniqueId) {
 
 const handleSubmit = async e => {
   e.preventDefault();
+  textarea.style.height = "auto";
   const data = new FormData(form);
   chatContainer.innerHTML += chatStripe(false, data.get("prompt"));
   form.reset();
@@ -81,7 +90,11 @@ const handleSubmit = async e => {
   }
 };
 
+// Form submit listeners
 form.addEventListener("submit", handleSubmit);
-form.addEventListener("keydown", e => {
-  if (e.key === "Enter") handleSubmit(e);
+form.addEventListener("keyup", e => {
+  if (e.key === "Enter" && !e.shiftKey) handleSubmit(e);
 });
+
+// Textarea resize listener
+textarea.addEventListener("input", textareaResize);
