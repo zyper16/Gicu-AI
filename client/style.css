@@ -37,7 +37,7 @@ body {
   scrollbar-width: none;
 
   padding-bottom: 20px;
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 /* hides scrollbar */
