@@ -82,7 +82,7 @@ const handleSubmit = async e => {
   if (response.ok) {
     const data = await response.json();
     const parsedData = data.bot.trim();
-    // typeText(responseDiv, parsedData);
+    typeText(responseDiv, parsedData);
   } else {
     const err = await response.text();
     console.log(err);
