@@ -32,7 +32,7 @@ const typeText = function (element, text) {
       element.scrollIntoView(false);
     } else clearInterval(interval);
     index++;
-  }, 10);
+  }, 25);
 };
 
 const generateUniqueID = function () {
