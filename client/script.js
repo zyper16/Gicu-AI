@@ -23,7 +23,7 @@ const textareaResize = function () {
 
 // Reset the prompt context when the page loads/reloads
 const resetPrompt = async function () {
-  const response = await fetch("http://localhost:5000/reset");
+  const response = await fetch("https://gicu-ai.onrender.com/reset");
 };
 
 resetPrompt();
