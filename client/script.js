@@ -25,7 +25,6 @@ const textareaResize = function () {
 const resetPrompt = async function () {
   const response = await fetch("https://gicu-ai.onrender.com/reset");
 };
-
 resetPrompt();
 
 const typeText = function (element, text) {
