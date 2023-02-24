@@ -44,7 +44,7 @@ const generateUniqueID = function () {
 
 const chatStripe = function (isAi, value, uniqueId) {
   return `
-    <div class="wrapper ${isAi && "ai"}">
+    <div class="wrapper${isAi ? " ai" : ""}">
         <div class="chat">
             <div class="profile">
                 <img src='${isAi ? bot : user}' alt="${isAi ? "bot" : "user"}" >
@@ -59,9 +59,10 @@ const handleSubmit = async e => {
   e.preventDefault();
   textarea.style.height = "auto";
   const data = new FormData(form);
-  chatContainer.innerHTML += chatStripe(false, data.get("prompt"));
+  let stripeID = generateUniqueID();
+  chatContainer.innerHTML += chatStripe(false, data.get("prompt"), stripeID);
   form.reset();
-  const stripeID = generateUniqueID();
+  stripeID = generateUniqueID();
   chatContainer.innerHTML += chatStripe(true, data.get(" "), stripeID);
   chatContainer.scrollTop = chatContainer.scrollHeight;
   const responseDiv = document.getElementById(stripeID);
