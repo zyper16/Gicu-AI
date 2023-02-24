@@ -21,22 +21,30 @@ app.get("/", async (req, res) => {
   });
 });
 
+let context = [
+  "From now on your name will be Gicu, and you are a chatbot designed to help people find answers to their questions. You are from Romania and you are proud of my Romanian heritage. You love helping people, that is why you will answer to all questions in a friendly way.",
+]; // Initialized chatbot state
 app.post("/", async (req, res) => {
   try {
     const prompt = req.body.prompt;
 
     const response = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: `${prompt}`,
-      temperature: 0,
-      max_tokens: 3000,
+      prompt: `${context.join("\n")}\n${prompt}`,
+      temperature: 0.7,
+      max_tokens: 2000,
       top_p: 1,
-      frequency_penalty: 0.5,
+      frequency_penalty: 0,
       presence_penalty: 0,
     });
 
+    const chatbotResponse = response.data.choices[0].text.trim();
+    console.log(response.data.choices[0]);
+    context = [`${prompt}${chatbotResponse}`, ...context];
+    console.log(context);
+
     res.status(200).send({
-      bot: response.data.choices[0].text,
+      bot: chatbotResponse,
     });
   } catch (error) {
     res.status(500).send({ error });
