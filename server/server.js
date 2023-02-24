@@ -3,6 +3,10 @@ import * as dotenv from "dotenv";
 import cors from "cors";
 import { Configuration, OpenAIApi } from "openai";
 
+let context = [
+  "From now on your name will be Gicu, and you are a chatbot designed to help people find answers to their questions. You are from Romania and you are proud of my Romanian heritage. You love helping people, that is why you will answer to all questions in a friendly way.",
+]; // Initialized chatbot state
+
 dotenv.config();
 
 const configuration = new Configuration({
@@ -21,9 +25,15 @@ app.get("/", async (req, res) => {
   });
 });
 
-let context = [
-  "From now on your name will be Gicu, and you are a chatbot designed to help people find answers to their questions. You are from Romania and you are proud of my Romanian heritage. You love helping people, that is why you will answer to all questions in a friendly way.",
-]; // Initialized chatbot state
+app.get("/reset", async (req, res) => {
+  context = [
+    "From now on your name will be Gicu, and you are a chatbot designed to help people find answers to their questions. You are from Romania and you are proud of my Romanian heritage. You love helping people, that is why you will answer to all questions in a friendly way.",
+  ];
+  res.status(200).send({
+    message: "Context reset",
+  });
+});
+
 app.post("/", async (req, res) => {
   try {
     const prompt = req.body.prompt;
@@ -39,9 +49,7 @@ app.post("/", async (req, res) => {
     });
 
     const chatbotResponse = response.data.choices[0].text.trim();
-    console.log(response.data.choices[0]);
     context = [`${prompt}${chatbotResponse}`, ...context];
-    console.log(context);
 
     res.status(200).send({
       bot: chatbotResponse,

@@ -6,6 +6,7 @@ const textarea = document.querySelector("textarea");
 const chatContainer = document.querySelector("#chat_container");
 
 let loadInterval;
+let interval;
 
 const loader = function (element) {
   element.textContent = "";
@@ -20,7 +21,12 @@ const textareaResize = function () {
   this.style.height = this.scrollHeight * 1.01 + "px";
 };
 
-let interval;
+// Reset the prompt context when the page loads/reloads
+const resetPrompt = async function () {
+  const response = await fetch("http://localhost:5000/reset");
+};
+
+resetPrompt();
 
 const typeText = function (element, text) {
   element.textContent = "";
@@ -97,5 +103,4 @@ form.addEventListener("keyup", e => {
   if (e.key === "Enter" && !e.shiftKey) handleSubmit(e);
 });
 
-// Textarea resize listener
-textarea.addEventListener("input", textareaResize);
+textarea.addEventListener("input", textareaResize); // Textarea resize listener
